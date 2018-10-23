@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title AMazeInn
+    meta name="keywords" content="A Maze Inn"
+    meta name="author" content="Clauren Capsella"
+    link rel="icon" type="image/png" href="images/favicon.png"
+    link rel="stylesheet" type="text/css" media="screen, projection" href="css/styles.css"
+    /[if lt IE 9]
+      script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"
+  body<> bgcolor = "#1C1C1C"
+    div id="container"
+      == yield
+      div id="footer"
+        Copyright © 2016 Clauren Capsella

@@ -1,0 +1,101 @@
+$(document).ready(function(){
+  $("#f1").click(function(){
+    $.ajax({
+      type: "post",
+      async: false,
+      url: "/floor1",
+      dataType: "json",
+      success: function(data){
+        $("#gameheader").attr("value","--> Your Room ---------------------- There are 7 rooms on Floor No." + data["floor"][0].toString());
+        for (var i = 0; i < 6; i++){
+          if (data["room"][i] == 0 || data["room"][i]["userid"] == parseInt($("#uid").val())){
+            $("#roomhead" + (i+1).toString()).text("R" + (i+1).toString() + ": Empty");
+            $("#roomface" + (i+1).toString()).text("No roomer");
+            $("#roomdoor" + (i+1).toString()).css("display","none"); 
+            $("#roomempty" + (i+1).toString()).css("display",""); 
+          }
+          else {
+            $("#roomhead" + (i+1).toString()).text("R" + (i+1).toString() + ": " + data["room"][i]["username"]);
+            $("#roomface" + (i+1).toString()).text("Knock the door");
+            $("#roomdoor" + (i+1).toString()).css("display",""); 
+            $("#roomempty" + (i+1).toString()).css("display","none"); 
+            $("#roomfh" + (i+1).toString()).text("Virtual ID: " + data["room"][i]["username"]);
+            if (!data["room"][i]["avatar"]) {
+              if (data["room"][i]["gender"] == "Male") {
+                $("#roomav" + (i+1).toString() + "to0").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to1").css("display",""); 
+                $("#roomav" + (i+1).toString() + "to2").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to3").css("display","none");  
+              }
+              else if (data["room"][i]["gender"] == "Female") {
+                $("#roomav" + (i+1).toString() + "to0").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to1").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to2").css("display",""); 
+                $("#roomav" + (i+1).toString() + "to3").css("display","none"); 
+              }
+              else {
+                $("#roomav" + (i+1).toString() + "to0").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to1").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to2").css("display","none"); 
+                $("#roomav" + (i+1).toString() + "to3").css("display",""); 
+              }
+            }
+            else {
+              $("#roomav" + (i+1).toString() + "to0").css("background-image",'url("' + window.location.href + data["room"][i]["avatar"] + '")');
+              $("#roomav" + (i+1).toString() + "to0").css("display",""); 
+              $("#roomav" + (i+1).toString() + "to1").css("display","none"); 
+              $("#roomav" + (i+1).toString() + "to2").css("display","none"); 
+              $("#roomav" + (i+1).toString() + "to3").css("display","none"); 
+              if (data["room"][i]["gender"] == "Male") {
+                $("#roomav" + (i+1).toString() + "to0").css("color","#005CAF"); 
+              }
+              else if (data["room"][i]["gender"] == "Female") {
+                $("#roomav" + (i+1).toString() + "to0").css("color","#C1328E"); 
+              }
+              else {
+                $("#roomav" + (i+1).toString() + "to0").css("color","#77428D"); 
+              }
+            }
+            if (data["mark"][i] == 1) {
+              $("#followroom" + (i+1).toString()).css("display",""); 
+              $("#unfollowroom" + (i+1).toString()).css("display","none");               
+            }
+            if (data["mark"][i] == 0) {
+              $("#followroom" + (i+1).toString()).css("display","none"); 
+              $("#unfollowroom" + (i+1).toString()).css("display","");               
+            }
+            if (!data["room"][i]["nickname"]) {
+              $("#roomnickname" + (i+1).toString()).text("Nickname : No nickname!");
+            }
+            else {
+              $("#roomnickname" + (i+1).toString()).text("Nickname : " + data["room"][i]["nickname"]);
+            }
+            $("#roomgender" + (i+1).toString()).text("Gender : " + data["room"][i]["gender"]);
+            if (!data["room"][i]["intro"]) {
+              $("#roomintro" + (i+1).toString()).text("Introduction : No introduction!");
+            }
+            else {
+              $("#roomintro" + (i+1).toString()).text("Introduction : " + data["room"][i]["intro"]);
+            }
+            $("#roomstate" + (i+1).toString()).text("Status : " + data["state"][i]);
+            $("#roommusic" + (i+1).toString()).text(data["room"][i]["username"] + "'s music:");
+            if (!data["room"][i]["bgmusic"]) {
+              $("#movie" + (i+1).toString()).attr("value",'flash/dewplayer.swf?mp3=' + '"music/0.mp3"');
+              $("#flashvars" + (i+1).toString()).attr("value",'mp3=' + '"music/0.mp3"' + '&autoplay=1&autoreplay=1&volume=100');
+            }
+            else {
+              $("#movie" + (i+1).toString()).attr("value",'flash/dewplayer.swf?mp3=' + data["room"][i]["bgmusic"]);
+              $("#flashvars" + (i+1).toString()).attr("value",'mp3=' + data["room"][i]["bgmusic"] + '&autoplay=1&autoreplay=1&volume=100');
+            }
+            if (!data["room"][i]["bgimg"]) {
+              $("#roombg" + (i+1).toString()).css("background-image",'url("../images/img0.png")');
+            }
+            else {
+              $("#roombg" + (i+1).toString()).css("background-image",'url("' + window.location.href + data["room"][i]["bgimg"] + '")');
+            }
+          }
+        }
+      }
+    });
+  });
+});
